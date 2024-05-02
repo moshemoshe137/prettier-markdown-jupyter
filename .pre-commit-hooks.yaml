@@ -1,0 +1,6 @@
+- id: format-markdown-notebook
+  name: Format Markdown in Jupyter Notebook
+  description: "Formats Markdown cells in Jupyter notebooks using Prettier."
+  entry: python scripts/prettier-jupyter-notebook.py
+  language: python
+  types: [jupyter]

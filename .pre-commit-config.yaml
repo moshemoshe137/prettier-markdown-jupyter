@@ -1,0 +1,76 @@
+default_stages: [ commit, merge-commit, push, prepare-commit-msg, commit-msg,
+                  post-checkout, post-commit, post-merge, post-rewrite ]
+exclude: |
+  (?x)(
+  LICENSE
+  |\.(html|csv|svg)$
+  )
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: check-added-large-files  # Prevent giant files from being committed.
+      - id: check-ast  # Simply check whether files parse as valid python.
+      - id: check-case-conflict  # Check for files with names that would conflict on a
+                                 # case-insensitive filesystem like macOS HFS+ or
+                                 # Windows FAT.
+      - id: check-merge-conflict # Check for files that contain merge conflict strings.
+      - id: check-toml  # checks toml files for parsable syntax.
+      - id: check-yaml  # checks yaml files for parsable syntax.
+      - id: destroyed-symlinks  # Detects symlinks which are changed to regular files
+                                # with a content of a path which that symlink was
+                                # pointing to. This usually happens on Windows when a
+                                # user clones a repository that has symlinks, but they
+                                # do not have the permission to create symlinks.
+      - id: detect-private-key  # Checks for the existence of private keys.
+      - id: end-of-file-fixer  # Makes sure files end in a newline and only a newline.
+      - id: mixed-line-ending  # Replaces or checks mixed line ending.
+      - id: trailing-whitespace  # Trims trailing whitespace.
+
+  - repo: https://github.com/psf/black
+    rev: 24.4.2
+    hooks:
+      - id: black-jupyter
+
+  - repo: https://github.com/PyCQA/flake8
+    rev: 7.0.0
+    hooks:
+      - id: flake8
+        additional_dependencies:
+          - flake8-bugbear==24.2.6
+          - flake8-comprehensions==3.14.0
+          - Flake8-pyproject==1.2.3
+        args:
+          - '--extend-ignore=E203'
+
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        name: isort (python)
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: 'v1.10.0'  # Use the sha / tag you want to point at
+    hooks:
+    -   id: mypy
+
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.15.2
+    hooks:
+      - id: pyupgrade
+        args:
+          - --py310-plus
+
+  - repo: https://github.com/pycqa/pydocstyle
+    rev: 6.3.0
+    hooks:
+      - id: pydocstyle
+        additional_dependencies:
+          - toml
+          - tomli
+
+  - repo: https://github.com/python-jsonschema/check-jsonschema.git
+    rev: 0.28.2
+    hooks:
+      - id: check-github-actions
+      - id: check-github-workflows
