@@ -1,3 +1,12 @@
+[project]
+name = "prettier_markdown_jupyter"
+version = "0.0.1"
+dynamic = ["dependencies"]
+
+[project.scripts]
+prettier_markdown_jupyter = "prettier_markdown_jupyter.prettier_markdown_jupyter:main"
+
+
 [tool.black]
 target-version = ["py310", "py311", "py312"]
 
@@ -45,3 +54,6 @@ __init__  # Ignore __init__.py files
 )
 .*\.py
 '''
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
