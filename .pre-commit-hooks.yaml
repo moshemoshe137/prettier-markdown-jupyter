@@ -1,6 +1,6 @@
 - id: format-markdown-notebook
   name: Format Markdown in Jupyter Notebook
   description: "Formats Markdown cells in Jupyter notebooks using Prettier."
-  entry: prettier-markdown-jupyter
+  entry: prettier_markdown_jupyter
   language: python
   types: [jupyter]
