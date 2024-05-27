@@ -4,6 +4,7 @@
 import argparse
 from pathlib import Path
 import subprocess
+import sys
 
 import nbformat
 
@@ -29,8 +30,17 @@ def format_markdown_cells(notebook_path: str | Path) -> bool:
     #     f.write(original_content)
 
     # Run pre-commit prettier
+    pre_commit_config_file = (
+        Path(__file__).parent / ".." / ".pre-commit-config.yaml"
+    ).resolve()
+    assert pre_commit_config_file.exists()
     subprocess.run(
-        f"pre-commit run prettier --files {temp_md_path}".split(" "),
+        [
+            sys.executable,
+            "-m pre_commit run",
+            f"-c '{pre_commit_config_file}'",
+            f"--files {temp_md_path}",
+        ],
         capture_output=True,
     )
 
