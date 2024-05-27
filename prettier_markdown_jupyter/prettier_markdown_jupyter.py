@@ -67,7 +67,8 @@ def format_markdown_cells(notebook_path: str | Path) -> bool:
     return modified
 
 
-if __name__ == "__main__":
+def main() -> None:
+    """Format the markdown cells in a Jupyter notebook with `prettier`."""
     parser = argparse.ArgumentParser(
         description="Format Markdown cells in a Jupyter Notebook using prettier."
     )
@@ -86,3 +87,7 @@ if __name__ == "__main__":
         if modified:
             exit_code = 1
     exit(exit_code)
+
+
+if __name__ == "__main__":
+    main()

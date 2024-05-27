@@ -1,9 +1,10 @@
 [project]
 name = "prettier_markdown_jupyter"
-dynamic = ["dependencies", "version"]
+version = "0.0.1"
+dynamic = ["dependencies"]
 
 [project.scripts]
-foo = 'scripts:prettier-markdown-jupyter'
+prettier_markdown_jupyter = "prettier_markdown_jupyter.prettier_markdown_jupyter:main"
 
 
 [tool.black]
