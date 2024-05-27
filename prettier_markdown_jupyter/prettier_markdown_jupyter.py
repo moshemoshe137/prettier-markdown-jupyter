@@ -33,7 +33,7 @@ def format_markdown_cells(notebook_path: str | Path) -> bool:
     pre_commit_config_file = (
         Path(__file__).parent / ".." / ".pre-commit-config.yaml"
     ).resolve()
-    assert pre_commit_config_file.exists()
+    assert pre_commit_config_file.exists(), f"{pre_commit_config_file} doesn't exist"
     subprocess.run(
         [
             sys.executable,
