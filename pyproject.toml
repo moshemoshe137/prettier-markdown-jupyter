@@ -1,3 +1,11 @@
+[project]
+name = "prettier_markdown_jupyter"
+dynamic = ["dependencies", "version"]
+
+[project.scripts]
+foo = 'scripts:prettier-markdown-jupyter'
+
+
 [tool.black]
 target-version = ["py310", "py311", "py312"]
 
