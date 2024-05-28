@@ -26,11 +26,14 @@ def format_markdown_cells(notebook_path: str | Path) -> bool:
     modified = False  # Flag to keep track of modification
     notebook_path = Path(notebook_path)
 
+    print(f"Processing notebook: {notebook_path}.")
+
     with notebook_path.open("r", encoding="utf8") as f:
         notebook = nbformat.read(f, as_version=4)
 
     temp_md_path = notebook_path.with_suffix(".temp.md")
     with open(temp_md_path, "w", encoding="utf-8") as temp_md_file:
+        print(f"{temp_md_file=}")
         markdown_cells = [
             cell.source for cell in notebook.cells if cell.cell_type == "markdown"
         ]
@@ -42,9 +45,10 @@ def format_markdown_cells(notebook_path: str | Path) -> bool:
     #     f.write(original_content)
 
     # Run pre-commit prettier
+    print(f"Found {len(markdown_cells):,} markdown cells.")
     pre_commit_config_file = _find_pre_commit_config_file(__file__)
     assert pre_commit_config_file is not None
-    subprocess.run(
+    result = subprocess.run(
         [
             sys.executable,
             "-m",
@@ -58,6 +62,10 @@ def format_markdown_cells(notebook_path: str | Path) -> bool:
         ],
         capture_output=True,
     )
+
+    print(f"`prettier` run result: {result.returncode=}")
+    print(f"`prettier` stdout: {result.stdout.decode('utf-8')=}")
+    print(f"`prettier` stderr: {result.stderr.decode('utf-8')=}")
 
     # Read the potentially modified content
     formatted_content = temp_md_path.read_text(encoding="utf8").rstrip()
