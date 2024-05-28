@@ -50,6 +50,7 @@ def format_markdown_cells(notebook_path: str | Path) -> bool:
             sys.executable,
             "-m pre_commit run",
             f"-c '{pre_commit_config_file}'",
+            "prettier",
             f"--files {temp_md_path}",
         ],
         capture_output=True,
