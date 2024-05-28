@@ -44,14 +44,17 @@ def format_markdown_cells(notebook_path: str | Path) -> bool:
     # Run pre-commit prettier
     pre_commit_config_file = _find_pre_commit_config_file(__file__)
     assert pre_commit_config_file is not None
-    assert pre_commit_config_file.exists(), f"{pre_commit_config_file} doesn't exist"
     subprocess.run(
         [
             sys.executable,
-            "-m pre_commit run",
-            f"-c '{pre_commit_config_file}'",
+            "-m",
+            "pre_commit",
+            "run",
             "prettier",
-            f"--files {temp_md_path}",
+            "-c",
+            str(pre_commit_config_file),
+            "--files",
+            str(temp_md_path),
         ],
         capture_output=True,
     )
