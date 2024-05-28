@@ -9,6 +9,18 @@ import sys
 import nbformat
 
 
+def _find_pre_commit_config_file(path: str | Path) -> Path | None:
+    current_path = Path(path).resolve()
+    top_of_the_filesystem = Path(current_path.parts[0])
+    while current_path != top_of_the_filesystem:
+        pre_commit_config_file = current_path / ".pre-commit-config.yaml"
+        if pre_commit_config_file.exists() and pre_commit_config_file.is_file():
+            return pre_commit_config_file.resolve()
+        current_path = current_path.parent
+
+    return None
+
+
 def format_markdown_cells(notebook_path: str | Path) -> bool:
     """Format the markdown cells in a Jupyter notebook with `prettier`."""
     modified = False  # Flag to keep track of modification
@@ -30,9 +42,8 @@ def format_markdown_cells(notebook_path: str | Path) -> bool:
     #     f.write(original_content)
 
     # Run pre-commit prettier
-    pre_commit_config_file = (
-        Path(__file__).parent / ".." / ".pre-commit-config.yaml"
-    ).resolve()
+    pre_commit_config_file = _find_pre_commit_config_file(__file__)
+    assert pre_commit_config_file is not None
     assert pre_commit_config_file.exists(), f"{pre_commit_config_file} doesn't exist"
     subprocess.run(
         [
